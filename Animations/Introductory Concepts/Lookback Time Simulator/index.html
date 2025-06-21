@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lookback Time Simulator</title>
+  <style>
+    body {
+      font-family: "Lucida Console", Monaco, monospace;
+      background-color: #d4d0c8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .window {
+      border: 2px outset #fff;
+      background: #e4e4e4;
+      width: 900px;
+      margin: 50px auto;
+      box-shadow: 3px 3px #888;
+    }
+
+    .title-bar {
+      background: linear-gradient(#000080, #000060);
+      color: white;
+      padding: 4px 10px;
+      font-weight: bold;
+    }
+
+    .window-body {
+      padding: 10px;
+      background: white;
+    }
+
+    .scene {
+      background-color: black;
+      height: 250px;
+      position: relative;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .star-img, .burst-img, .observer-img, .bracket-img {
+      position: absolute;
+    }
+
+    .star-img, .burst-img {
+      height: 50px;
+    }
+
+    .observer-img {
+      left: 480px;
+      top: 80px;
+      height: 80px;
+    }
+
+    .bracket-img {
+      left: 200px;
+      bottom: 10px;
+      height: 50px;
+    }
+
+    .blast-wave {
+      position: absolute;
+      border: 1px solid white;
+      border-radius: 50%;
+      width: 1px;
+      height: 1px;
+      left: 115px;
+      top: 115px;
+      opacity: 0;
+      transform-origin: center;
+      box-sizing: border-box;
+    }
+
+    .controls {
+      font-size: 14px;
+    }
+
+    .timeline {
+      border-top: 1px solid #555;
+      margin-top: 10px;
+      padding-top: 10px;
+      position: relative;
+    }
+
+    .pointer {
+      position: absolute;
+      top: -15px;
+      font-size: 20px;
+      transform: translateX(-50%);
+      transition: left 0.05s linear;
+    }
+
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    input[type="number"], input[type="range"] {
+      font-family: inherit;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    input[type="number"] {
+      width: 100px;
+      padding: 2px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    button {
+      padding: 4px 10px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #c0c0c0;
+      border: 2px outset #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #a0a0a0;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    #manStar, #manBurst {
+      left: 500px;
+      top: 30px;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="window">
+  <div class="title-bar">Lookback Time Simulator</div>
+  <div class="window-body">
+    <div class="scene">
+      <img src="../assets/star.svg" class="star-img" id="starImg" style="left: 80px; top: 80px;" />
+      <img src="../assets/burst.gif" class="burst-img" id="burstImg" style="left: 80px; top: 80px; display:none;" />
+      <img src="../assets/man.png" class="observer-img" />
+      <img src="../assets/star.svg" class="star-img" id="manStar" />
+      <img src="../assets/burst.gif" class="burst-img" id="manBurst" style="display: none;" />
+      <img src="../assets/bracket.png" class="bracket-img" style="filter: invert(1); margin-left: -100px; height: 40px;"/>
+      <div class="blast-wave" id="blastWave"></div>
+      
+    </div>
+
+    
+      <div class="controls"><small style="background-color: red; color: white; padding: 2px 6px; border-radius: 3px;">
+        Change the values based on your needs</small><br>
+      <label for="supernovaYear">Supernova Occurs:</label>
+      <input type="number" id="supernovaYear" value="1200" oninput="syncTimeWithInput()" /> AD
+      <button onclick="simulate()">Go Supernova</button>
+      <br><br>
+      <label for="timeRange">Time Slider (Years BC → AD):</label><br>
+    
+      <div class="timeline">
+        <div class="pointer" id="pointer">▼</div>
+        <input type="range" id="timeRange" min="-8000" max="10000" value="1200" oninput="updateTime(true)" />
+        <div class="labels">
+          <span>8000 BC</span><span>6000 BC</span><span>4000 BC</span><span>2000 BC</span><span>1 AD</span><span>2000 AD</span><span>4000 AD</span><span>6000 AD</span><span>8000 AD</span><span>10000 AD</span>
+        </div>
+      </div>
+      <span id="timeDisplay">-3000</span>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>
